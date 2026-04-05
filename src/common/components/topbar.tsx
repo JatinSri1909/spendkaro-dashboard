@@ -45,7 +45,7 @@ export function Topbar({ title, onMenuClick }: TopbarProps) {
             onClick={() => dispatch({ type: AppActionType.SetRole, payload: RoleEnum.Admin })}
             className={`px-3 py-1.5 text-xs font-bold uppercase tracking-widest rounded-lg transition-all ${
               state.role === RoleEnum.Admin
-                ? 'bg-rose-500/20 text-rose-400 shadow-[0_0_10px_rgba(244,63,94,0.2)] border border-rose-500/30'
+                ? 'bg-purple-500/20 text-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.25)] border border-purple-500/30'
                 : 'text-text-muted hover:text-text hover:bg-white/5 border border-transparent'
             }`}
           >

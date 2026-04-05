@@ -15,7 +15,7 @@ export function Sidebar({ role }: SidebarProps) {
     <aside className="relative z-20 flex h-full w-64 flex-col border-r border-white/10 bg-background px-4 py-6 backdrop-blur-none md:bg-surface-alt/40 md:backdrop-blur-2xl">
       {/* Logo */}
       <div className="mb-8 flex items-center gap-3 px-2">
-        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-accent to-blue-600 shadow-lg shadow-accent/20">
+        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-accent to-accent/80 shadow-lg shadow-accent/20">
           <span className="text-base font-black text-white">₹</span>
         </div>
         <div>
@@ -50,7 +50,7 @@ export function Sidebar({ role }: SidebarProps) {
       </nav>
 
       {/* Footer */}
-      <div className="glass-panel !p-3">
+      <div className="glass-panel p-3!">
         <p className="text-[10px] uppercase tracking-widest text-accent">Fiscal Period</p>
         <p className="mt-0.5 text-sm font-semibold text-text">Oct '25 – Apr '26</p>
       </div>

@@ -35,8 +35,8 @@ function AppShell() {
       {/* Animated Background Blobs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="animate-blob absolute -top-40 -left-20 h-96 w-96 rounded-full bg-accent/30 blur-3xl filter" />
-        <div className="animate-blob animation-delay-2000 absolute top-40 -right-20 h-80 w-80 rounded-full bg-blue-500/30 blur-3xl filter" />
-        <div className="animate-blob animation-delay-4000 absolute -bottom-40 left-20 h-[30rem] w-[30rem] rounded-full bg-indigo-500/30 blur-3xl filter" />
+        <div className="animate-blob animation-delay-2000 absolute top-40 -right-20 h-80 w-80 rounded-full bg-accent/20 blur-3xl filter" />
+        <div className="animate-blob animation-delay-4000 absolute -bottom-40 left-20 h-120 w-120 rounded-full bg-accent/15 blur-3xl filter" />
       </div>
       
       <div className="relative z-10 flex w-full flex-1">
