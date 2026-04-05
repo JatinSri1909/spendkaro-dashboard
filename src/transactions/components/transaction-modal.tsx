@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import { useAppContext } from '@/common/hooks';
 import { TransactionTypeEnum, type Transaction, type TransactionCategory, type TransactionType } from '@/common/types';
@@ -74,22 +75,22 @@ export function TransactionModal({ transaction, onClose }: TransactionModalProps
     }
 
     if (type === TransactionTypeEnum.Income) {
-      return 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.2)]';
+      return 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.2)]';
     }
 
-    return 'bg-rose-500/20 text-rose-400 border border-rose-500/30 shadow-[0_0_15px_rgba(244,63,94,0.2)]';
+    return 'bg-rose-500/20 text-rose-700 dark:text-rose-400 border border-rose-500/30 shadow-[0_0_15px_rgba(244,63,94,0.2)]';
   }
 
-  const inputClass = "w-full rounded-xl border border-white/10 bg-surface/40 px-4 py-3 text-sm text-text placeholder:text-text-muted focus:border-accent/50 focus:bg-surface/60 focus:outline-none transition-all shadow-[inset_0_1px_4px_rgba(0,0,0,0.3)] backdrop-blur-xl";
+  const inputClass = "w-full rounded-xl border border-black/10 dark:border-white/10 bg-surface/40 px-4 py-3 text-sm text-text placeholder:text-text-muted focus:border-accent/50 focus:bg-surface/60 focus:outline-none transition-all shadow-[inset_0_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[inset_0_1px_4px_rgba(0,0,0,0.3)] backdrop-blur-xl";
 
-  return (
+  const modalContent = (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 transition-opacity bg-[#020617]/80 backdrop-blur-md" onClick={onClose} />
+      <div className="absolute inset-0 transition-opacity bg-black/60 dark:bg-[#020617]/80 backdrop-blur-md" onClick={onClose} />
       
-      <div className="glass-panel relative w-full max-w-md !rounded-2xl !p-0 shadow-[0_16px_60px_rgba(0,0,0,0.6)] animate-in fade-in zoom-in-95 duration-200">
+      <div className="glass-panel relative w-full max-w-md max-h-[90vh] overflow-y-auto !rounded-2xl !p-0 shadow-[0_16px_60px_rgba(0,0,0,0.6)] animate-in fade-in zoom-in-95 duration-200">
         
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-white/10 px-6 py-5 bg-white/[0.02]">
+        <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 px-6 py-5 bg-white/50 dark:bg-white/[0.02]">
           <h2 className="text-sm font-bold tracking-widest uppercase text-accent drop-shadow-[0_2px_10px_rgba(56,189,248,0.4)]">
             {isEdit ? 'Edit Transaction' : 'New Transaction'}
           </h2>
@@ -135,7 +136,7 @@ export function TransactionModal({ transaction, onClose }: TransactionModalProps
                 title="Merchant"
                 className={inputClass}
               />
-              {errors.merchant && <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-rose-400 drop-shadow-sm">{errors.merchant}</p>}
+              {errors.merchant && <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400 drop-shadow-sm">{errors.merchant}</p>}
             </div>
             <div className="group">
               <label htmlFor="transaction-amount" className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-text-muted group-focus-within:text-accent transition-colors">Amount (₹) *</label>
@@ -149,7 +150,7 @@ export function TransactionModal({ transaction, onClose }: TransactionModalProps
                 className={inputClass}
                 step="0.01"
               />
-              {errors.amount && <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-rose-400 drop-shadow-sm">{errors.amount}</p>}
+              {errors.amount && <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400 drop-shadow-sm">{errors.amount}</p>}
             </div>
           </div>
 
@@ -177,7 +178,7 @@ export function TransactionModal({ transaction, onClose }: TransactionModalProps
                 date={form.date ? new Date(form.date) : undefined}
                 onDateChange={(date: Date | undefined) => { setForm(f => ({ ...f, date: date ? date.toISOString().split('T')[0] : '' })) }}
               />
-              {errors.date && <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-rose-400 drop-shadow-sm">{errors.date}</p>}
+              {errors.date && <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400 drop-shadow-sm">{errors.date}</p>}
             </div>
           </div>
 
@@ -196,19 +197,19 @@ export function TransactionModal({ transaction, onClose }: TransactionModalProps
           </div>
 
           {/* Actions */}
-          <div className="flex gap-4 pt-3 mt-2 border-t border-white/5">
+          <div className="flex gap-4 pt-3 mt-2 border-t border-black/10 dark:border-white/5">
             <button
               type="button"
               onClick={onClose}
               title="Cancel"
-              className="flex-1 rounded-xl border border-white/10 bg-white/5 py-3 text-xs font-bold uppercase tracking-widest text-text-muted hover:bg-white/10 hover:text-white transition-all backdrop-blur-md"
+              className="flex-1 rounded-xl border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 py-3 text-xs font-bold uppercase tracking-widest text-text-muted hover:bg-black/10 dark:hover:bg-white/10 hover:text-text transition-all backdrop-blur-md"
             >
               Cancel
             </button>
             <button
               type="submit"
               title={isEdit ? 'Save changes' : 'Add transaction'}
-              className="flex-1 rounded-xl bg-accent/90 border border-accent/50 py-3 text-xs font-bold uppercase tracking-widest text-white hover:bg-accent hover:-translate-y-0.5 transition-all shadow-[0_0_20px_rgba(56,189,248,0.4)] backdrop-blur-md"
+              className="flex-1 rounded-xl bg-accent/90 border border-accent/50 py-3 text-xs font-bold uppercase tracking-widest text-slate-950 hover:bg-accent hover:-translate-y-0.5 transition-all shadow-[0_0_20px_rgba(56,189,248,0.4)] backdrop-blur-md"
             >
               {isEdit ? 'Save Changes' : 'Add Transaction'}
             </button>
@@ -217,4 +218,6 @@ export function TransactionModal({ transaction, onClose }: TransactionModalProps
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 }
