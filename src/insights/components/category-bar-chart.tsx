@@ -11,28 +11,28 @@ export function CategoryBarChart({ data }: CategoryBarChartProps) {
 
   return (
     <Card className="p-5">
-      <div className="mb-4">
-        <p className="text-xs font-medium uppercase tracking-widest text-text-muted">Spending</p>
-        <p className="mt-0.5 text-sm font-semibold text-text">Category Breakdown</p>
+      <div className="mb-6">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-accent drop-shadow-[0_2px_10px_rgba(56,189,248,0.4)]">Spending</p>
+        <p className="mt-1 text-base font-bold tracking-wide text-text">Category Breakdown</p>
       </div>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-4">
         {data.slice(0, 8).map((item) => (
-          <div key={item.category}>
-            <div className="mb-1 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
-                <span className="text-xs font-medium text-text">{item.category}</span>
+          <div key={item.category} className="group">
+            <div className="mb-2 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="h-2.5 w-2.5 rounded-full shrink-0 shadow-[0_0_8px_rgba(0,0,0,0.5)] transition-transform group-hover:scale-125" style={{ backgroundColor: item.color }} />
+                <span className="text-sm font-semibold tracking-wide text-text">{item.category}</span>
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-xs text-text-muted">{item.percentage.toFixed(1)}%</span>
-                <span className="text-xs font-semibold text-text tabular-nums w-20 text-right">
+                <span className="text-[11px] font-bold text-text-muted">{item.percentage.toFixed(1)}%</span>
+                <span className="text-xs font-bold text-text tabular-nums w-20 text-right drop-shadow-sm">
                   {formatCurrencyFull(item.amount)}
                 </span>
               </div>
             </div>
-            <div className="h-1.5 w-full rounded-full bg-white/8 overflow-hidden">
+            <div className="h-2 w-full rounded-full bg-surface-border/40 overflow-hidden shadow-inner backdrop-blur-sm">
               <div
-                className="h-full rounded-full transition-all duration-700"
+                className="h-full rounded-full transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(255,255,255,0.2)]"
                 style={{
                   width: `${(item.amount / max) * 100}%`,
                   backgroundColor: item.color,
