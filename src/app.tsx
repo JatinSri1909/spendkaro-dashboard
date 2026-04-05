@@ -1,15 +1,16 @@
 import { useState, lazy, Suspense } from 'react';
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { AppProvider, useAppContext } from '@/common/hooks';
 import { Sidebar, Topbar } from '@/common/components';
 
-const DashboardPage = lazy(() => import('@/dashboard/dashboard-page'));
+const OverviewPage = lazy(() => import('@/overview/overview-page'));
 const TransactionsPage = lazy(() => import('@/transactions/transactions-page'));
 const InsightsPage = lazy(() => import('@/insights/insights-page'));
 
 const PAGE_TITLES: Record<string, string> = {
-  dashboard: 'Overview',
-  transactions: 'Transactions',
-  insights: 'Insights',
+  '/': 'Overview',
+  '/transactions': 'Transactions',
+  '/insights': 'Insights',
 };
 
 function PageLoader() {
@@ -24,9 +25,10 @@ function PageLoader() {
 }
 
 function AppShell() {
-  const [page, setPage] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { state } = useAppContext();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <div className="relative flex h-screen overflow-hidden bg-background font-sans text-text antialiased">
@@ -39,27 +41,27 @@ function AppShell() {
       
       <div className="relative z-10 flex w-full flex-1">
         <div className="hidden md:flex md:shrink-0">
-        <Sidebar activePage={page} onNavigate={setPage} role={state.role} />
+        <Sidebar role={state.role} />
       </div>
 
       {sidebarOpen && (
         <div className="fixed inset-0 z-40 flex md:hidden">
           <div className="absolute inset-0 bg-black/60" onClick={() => setSidebarOpen(false)} />
-          <div className="relative z-50 shrink-0">
-            <Sidebar activePage={page} onNavigate={(p) => { setPage(p); setSidebarOpen(false); }} role={state.role} />
+          <div className="relative z-50 shrink-0" onClick={() => setSidebarOpen(false)}>
+            <Sidebar role={state.role} />
           </div>
         </div>
       )}
 
       <div className="flex flex-1 flex-col overflow-hidden">
-        <Topbar title={PAGE_TITLES[page]} onMenuClick={() => setSidebarOpen(true)} />
+        <Topbar title={PAGE_TITLES[location.pathname] || 'Overview'} onMenuClick={() => setSidebarOpen(true)} />
         <main className="flex-1 overflow-y-auto">
           <Suspense fallback={<PageLoader />}>
-            {page === 'dashboard' && (
-              <DashboardPage onNavigateToTransactions={() => setPage('transactions')} />
-            )}
-            {page === 'transactions' && <TransactionsPage />}
-            {page === 'insights' && <InsightsPage />}
+            <Routes>
+              <Route path="/" element={<OverviewPage onNavigateToTransactions={() => navigate('/transactions')} />} />
+              <Route path="/transactions" element={<TransactionsPage />} />
+              <Route path="/insights" element={<InsightsPage />} />
+            </Routes>
           </Suspense>
         </main>
       </div>
@@ -70,8 +72,10 @@ function AppShell() {
 
 export default function App() {
   return (
-    <AppProvider>
-      <AppShell />
-    </AppProvider>
+    <BrowserRouter>
+      <AppProvider>
+        <AppShell />
+      </AppProvider>
+    </BrowserRouter>
   );
 }

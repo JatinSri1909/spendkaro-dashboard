@@ -77,7 +77,7 @@ export default function TransactionsPage() {
               type="button"
               onClick={openAdd}
               title="Add transaction"
-              className="flex items-center gap-2 rounded-xl bg-accent px-3 py-2 text-xs font-bold text-slate-950 hover:bg-accent/80 transition-colors shadow-lg shadow-accent/20"
+              className="flex items-center gap-2 rounded-xl bg-accent px-3 py-2 text-xs font-bold text-white hover:bg-accent/80 transition-colors shadow-lg shadow-accent/20"
             >
               <Plus size={13} /> Add Transaction
             </button>

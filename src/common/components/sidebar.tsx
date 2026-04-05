@@ -1,14 +1,16 @@
 import { ChevronRight } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import type { Role } from '../types';
 import { sidebarNavItems } from '../constants';
 
 interface SidebarProps {
-  activePage: string;
-  onNavigate: (page: string) => void;
   role: Role;
 }
 
-export function Sidebar({ activePage, onNavigate, role }: SidebarProps) {
+export function Sidebar({ role }: SidebarProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   return (
     <aside className="relative z-20 flex h-full w-64 flex-col border-r border-white/10 bg-surface-alt/40 px-4 py-6 backdrop-blur-2xl">
       {/* Logo */}
@@ -24,13 +26,13 @@ export function Sidebar({ activePage, onNavigate, role }: SidebarProps) {
 
       {/* Nav */}
       <nav className="flex flex-1 flex-col gap-1">
-        {sidebarNavItems.map(({ id, label, icon: Icon }) => {
-          const active = activePage === id;
+        {sidebarNavItems.map(({ id, path, label, icon: Icon }) => {
+          const active = location.pathname === path;
           return (
             <button
               key={id}
               type="button"
-              onClick={() => onNavigate(id)}
+              onClick={() => navigate(path)}
               title={label}
               aria-label={label}
               className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-300 ${

@@ -90,7 +90,7 @@ export function TransactionTable({ transactions, role, onEdit, onDelete }: Trans
               <td className="px-4 py-3">
                 <span
                   className={`font-semibold tabular-nums ${
-                    txn.type === TransactionTypeEnum.Income ? 'text-emerald-400' : 'text-rose-400'
+                    txn.type === TransactionTypeEnum.Income ? 'text-emerald-400' : 'text-red-500'
                   }`}
                 >
                   {txn.type === TransactionTypeEnum.Income ? '+' : '-'}{formatCurrencyFull(txn.amount)}

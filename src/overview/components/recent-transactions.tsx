@@ -49,7 +49,7 @@ export function RecentTransactions({ transactions, onViewAll }: RecentTransactio
             <div className="text-right">
               <p
                 className={`text-sm font-semibold ${
-                  txn.type === TransactionTypeEnum.Income ? 'text-emerald-400' : 'text-rose-400'
+                  txn.type === TransactionTypeEnum.Income ? 'text-emerald-400' : 'text-red-500'
                 }`}
               >
                 {txn.type === TransactionTypeEnum.Income ? '+' : '-'}{formatCurrencyFull(txn.amount)}
