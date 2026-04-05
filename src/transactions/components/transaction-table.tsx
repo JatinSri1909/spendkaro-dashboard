@@ -98,7 +98,7 @@ export function TransactionTable({ transactions, role, onEdit, onDelete }: Trans
               </td>
               {role === RoleEnum.Admin && (
                 <td className="px-4 py-3">
-                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex items-center gap-1">
                     <button
                       type="button"
                       onClick={() => onEdit(txn)}

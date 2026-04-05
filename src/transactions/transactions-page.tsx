@@ -79,7 +79,8 @@ export default function TransactionsPage() {
               title="Add transaction"
               className="flex items-center gap-2 rounded-xl bg-accent px-3 py-2 text-xs font-bold text-white hover:bg-accent/80 transition-colors shadow-lg shadow-accent/20"
             >
-              <Plus size={13} /> Add Transaction
+              <Plus size={13} />
+              <span className="hidden sm:inline">Add Transaction</span>
             </button>
           )}
         </div>
