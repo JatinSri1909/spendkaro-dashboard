@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-background:   var(--token-background);
+  --color-surface:      var(--token-surface);
+  --color-surface-alt:  var(--token-surface-alt);
+  --color-text:         var(--token-text);
+  --color-text-muted:   var(--token-text-muted);
+  --color-accent:       var(--token-accent);
+
+  --font-family-sans: 'DM Sans', system-ui, sans-serif;
+}
+
+:root {
+  --token-background:   #0D0F12;
+  --token-surface:      #13161B;
+  --token-surface-alt:  #0F1216;
+  --token-text:         #EDF0F4;
+  --token-text-muted:   #6B7280;
+  --token-accent:       #C9A96E;
+
+  /* expose for JS/recharts */
+  --color-text-muted: #6B7280;
+}
+
+:root.light {
+  --token-background:   #F2F3F6;
+  --token-surface:      #FFFFFF;
+  --token-surface-alt:  #F8F9FB;
+  --token-text:         #111827;
+  --token-text-muted:   #6B7280;
+  --token-accent:       #B8935A;
+  --color-text-muted:   #6B7280;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--token-background);
+  color: var(--token-text);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.5);
+  cursor: pointer;
+}
+
+select option {
+  background-color: var(--token-surface-alt);
+  color: var(--token-text);
+}
+
+@keyframes animateIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.animate-in { animation: animateIn 0.2s ease-out both; }
+
+main > * { animation: animateIn 0.22s ease-out both; }
