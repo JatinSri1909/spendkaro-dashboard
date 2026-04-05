@@ -18,7 +18,7 @@ export function Badge({ label, color, variant }: BadgeProps) {
   if (color) {
     return (
       <span
-        className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold text-white shadow-sm"
+        className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold text-white shadow-[0_2px_10px_rgba(0,0,0,0.2)] backdrop-blur-md"
         style={{ backgroundColor: color }}
       >
         {label}
@@ -28,7 +28,7 @@ export function Badge({ label, color, variant }: BadgeProps) {
 
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-medium ${variantClass}`}
+      className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-medium shadow-sm backdrop-blur-md ${variantClass}`}
     >
       {label}
     </span>

@@ -1,5 +1,5 @@
 import { useState, lazy, Suspense } from 'react';
-import { Plus, Download } from 'lucide-react';
+import { Download, Plus } from 'lucide-react';
 import { Card } from '@/common/components';
 import { TransactionFilters, TransactionTable } from './components';
 import { useTransactions } from './hooks';
@@ -77,7 +77,7 @@ export default function TransactionsPage() {
               type="button"
               onClick={openAdd}
               title="Add transaction"
-              className="flex items-center gap-2 rounded-xl bg-accent px-3 py-2 text-xs font-semibold text-white hover:bg-accent/80 transition-colors shadow-lg shadow-accent/20"
+              className="flex items-center gap-2 rounded-xl bg-accent px-3 py-2 text-xs font-bold text-slate-950 hover:bg-accent/80 transition-colors shadow-lg shadow-accent/20"
             >
               <Plus size={13} /> Add Transaction
             </button>
@@ -87,7 +87,7 @@ export default function TransactionsPage() {
 
       {/* Role info banner for viewer */}
       {role === RoleEnum.Viewer && (
-        <div className="rounded-xl border border-amber-500/20 bg-amber-500/8 px-4 py-2.5 text-xs text-amber-400">
+        <div className="rounded-xl border border-amber-500/20 bg-amber-500/8 px-4 py-2.5 text-xs text-amber-700 dark:text-amber-400 font-medium">
           👁 Viewer mode — switch to Admin to add, edit, or delete transactions.
         </div>
       )}

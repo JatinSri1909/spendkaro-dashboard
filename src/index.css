@@ -1,37 +1,46 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
   --color-background:   var(--token-background);
   --color-surface:      var(--token-surface);
   --color-surface-alt:  var(--token-surface-alt);
+  --color-surface-border: var(--token-surface-border);
   --color-text:         var(--token-text);
   --color-text-muted:   var(--token-text-muted);
   --color-accent:       var(--token-accent);
+  --color-accent-dim:   var(--token-accent-dim);
 
-  --font-family-sans: 'DM Sans', system-ui, sans-serif;
+  --font-sans: 'Space Grotesk', system-ui, sans-serif;
 }
 
 :root {
-  --token-background:   #0D0F12;
-  --token-surface:      #13161B;
-  --token-surface-alt:  #0F1216;
-  --token-text:         #EDF0F4;
-  --token-text-muted:   #6B7280;
-  --token-accent:       #C9A96E;
-
-  /* expose for JS/recharts */
-  --color-text-muted: #6B7280;
+  /* Dark Mode (Default) - Deep Space Blue/Silver */
+  --token-background:   #020617;
+  --token-surface:      rgba(255, 255, 255, 0.03);
+  --token-surface-alt:  rgba(255, 255, 255, 0.08);
+  --token-surface-border: rgba(255, 255, 255, 0.08);
+  --token-text:         #F8FAFC; 
+  --token-text-muted:   #94A3B8;
+  --token-accent:       #38BDF8; 
+  --token-accent-dim:   rgba(56, 189, 248, 0.15); 
+  
+  --color-text-muted:   #94A3B8;
 }
 
 :root.light {
-  --token-background:   #F2F3F6;
-  --token-surface:      #FFFFFF;
-  --token-surface-alt:  #F8F9FB;
-  --token-text:         #111827;
-  --token-text-muted:   #6B7280;
-  --token-accent:       #B8935A;
-  --color-text-muted:   #6B7280;
+  /* Light Mode - Icy Silver/Blue */
+  --token-background:   #F8FAFC;
+  --token-surface:      rgba(255, 255, 255, 0.6);
+  --token-surface-alt:  rgba(255, 255, 255, 0.8);
+  --token-surface-border: rgba(255, 255, 255, 0.4);
+  --token-text:         #0F172A;
+  --token-text-muted:   #64748B;
+  --token-accent:       #0284C7;
+  --token-accent-dim:   rgba(2, 132, 199, 0.15);
+  
+  --color-text-muted:   #64748B;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -45,14 +54,14 @@ html, body, #root {
 body {
   background-color: var(--token-background);
   color: var(--token-text);
-  font-family: 'DM Sans', system-ui, sans-serif;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 99px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.2); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.4); }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(0.5);
@@ -69,6 +78,30 @@ select option {
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.animate-in { animation: animateIn 0.2s ease-out both; }
+.animate-in { animation: animateIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
-main > * { animation: animateIn 0.22s ease-out both; }
+main > * { animation: animateIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@keyframes float-blob {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, -50px) scale(1.1); }
+  66% { transform: translate(-30px, 30px) scale(0.9); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+.animate-blob {
+  animation: float-blob 20s infinite alternate ease-in-out;
+}
+
+.animation-delay-2000 { animation-delay: 2s; }
+.animation-delay-4000 { animation-delay: 4s; }
+
+/* Reusable Glass Panel Class */
+.glass-panel {
+  background-color: var(--token-surface);
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--token-surface-border);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+}

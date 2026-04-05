@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import { useAppContext } from '@/common/hooks';
 import { TransactionTypeEnum, type Transaction, type TransactionCategory, type TransactionType } from '@/common/types';
 import { AppActionType } from '@/common/constants';
 import { transactionCategories } from '../constants';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, DatePicker } from '@/common/components';
 
 interface TransactionModalProps {
   transaction?: Transaction;
@@ -29,7 +31,6 @@ export function TransactionModal({ transaction, onClose }: TransactionModalProps
 
   const [errors, setErrors] = useState<Partial<typeof form>>({});
 
-  // Close on Escape
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', handler);
@@ -70,47 +71,52 @@ export function TransactionModal({ transaction, onClose }: TransactionModalProps
 
   function getTypeButtonClass(type: TransactionType): string {
     if (form.type !== type) {
-      return 'text-text-muted hover:text-text';
+      return 'text-text-muted hover:text-text border border-transparent';
     }
 
     if (type === TransactionTypeEnum.Income) {
-      return 'bg-emerald-500/20 text-emerald-400';
+      return 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.2)]';
     }
 
-    return 'bg-rose-500/20 text-rose-400';
+    return 'bg-rose-500/20 text-rose-700 dark:text-rose-400 border border-rose-500/30 shadow-[0_0_15px_rgba(244,63,94,0.2)]';
   }
 
-  const inputClass = "w-full rounded-xl border border-white/10 bg-white/6 px-3 py-2.5 text-sm text-text placeholder:text-text-muted focus:border-accent/50 focus:outline-none transition-colors";
+  const inputClass = "w-full rounded-xl border border-black/10 dark:border-white/10 bg-surface/40 px-4 py-3 text-sm text-text placeholder:text-text-muted focus:border-accent/50 focus:bg-surface/60 focus:outline-none transition-all shadow-[inset_0_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[inset_0_1px_4px_rgba(0,0,0,0.3)] backdrop-blur-xl";
 
-  return (
+  const modalContent = (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-md rounded-2xl border border-white/12 bg-surface-alt shadow-2xl animate-in">
+      <div className="absolute inset-0 transition-opacity bg-black/60 dark:bg-[#020617]/80 backdrop-blur-md" onClick={onClose} />
+      
+      <div className="glass-panel relative w-full max-w-md max-h-[90vh] overflow-y-auto !rounded-2xl !p-0 shadow-[0_16px_60px_rgba(0,0,0,0.6)] animate-in fade-in zoom-in-95 duration-200">
+        
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-white/8 px-5 py-4">
-          <h2 className="text-sm font-semibold text-text">{isEdit ? 'Edit Transaction' : 'Add Transaction'}</h2>
+        <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 px-6 py-5 bg-white/50 dark:bg-white/[0.02]">
+          <h2 className="text-sm font-bold tracking-widest uppercase text-accent drop-shadow-[0_2px_10px_rgba(56,189,248,0.4)]">
+            {isEdit ? 'Edit Transaction' : 'New Transaction'}
+          </h2>
           <button
             type="button"
             onClick={onClose}
             aria-label="Close transaction modal"
             title="Close"
-            className="rounded-lg p-1.5 text-text-muted hover:bg-white/8 hover:text-text transition-colors"
+            className="rounded-full p-2 text-text-muted hover:bg-white/10 hover:text-text transition-all hover:rotate-90 hover:scale-110"
           >
             <X size={16} />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-5 flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="p-6 flex flex-col gap-5">
+          
           {/* Type toggle */}
-          <div className="flex rounded-xl border border-white/10 bg-white/4 overflow-hidden">
+          <div className="flex rounded-xl border border-white/10 bg-surface/30 backdrop-blur-xl p-1.5 shadow-[inset_0_1px_4px_rgba(0,0,0,0.3)]">
             {([TransactionTypeEnum.Expense, TransactionTypeEnum.Income] as TransactionType[]).map((t) => (
               <button
                 key={t}
                 type="button"
                 onClick={() => setForm((f) => ({ ...f, type: t }))}
                 title={t}
-                className={`flex-1 py-2 text-sm font-medium capitalize transition-colors ${getTypeButtonClass(t)}`}
+                className={`flex-1 py-2.5 rounded-lg text-xs font-bold tracking-widest uppercase transition-all ${getTypeButtonClass(t)}`}
               >
                 {t}
               </button>
@@ -118,9 +124,9 @@ export function TransactionModal({ transaction, onClose }: TransactionModalProps
           </div>
 
           {/* Merchant + Amount */}
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label htmlFor="transaction-merchant" className="mb-1 block text-xs text-text-muted">Merchant *</label>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="group">
+              <label htmlFor="transaction-merchant" className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-text-muted group-focus-within:text-accent transition-colors">Merchant *</label>
               <input
                 id="transaction-merchant"
                 type="text"
@@ -130,10 +136,10 @@ export function TransactionModal({ transaction, onClose }: TransactionModalProps
                 title="Merchant"
                 className={inputClass}
               />
-              {errors.merchant && <p className="mt-1 text-xs text-rose-400">{errors.merchant}</p>}
+              {errors.merchant && <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400 drop-shadow-sm">{errors.merchant}</p>}
             </div>
-            <div>
-              <label htmlFor="transaction-amount" className="mb-1 block text-xs text-text-muted">Amount (₹) *</label>
+            <div className="group">
+              <label htmlFor="transaction-amount" className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-text-muted group-focus-within:text-accent transition-colors">Amount (₹) *</label>
               <input
                 id="transaction-amount"
                 type="number"
@@ -142,69 +148,68 @@ export function TransactionModal({ transaction, onClose }: TransactionModalProps
                 placeholder="0"
                 title="Amount"
                 className={inputClass}
+                step="0.01"
               />
-              {errors.amount && <p className="mt-1 text-xs text-rose-400">{errors.amount}</p>}
+              {errors.amount && <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400 drop-shadow-sm">{errors.amount}</p>}
             </div>
           </div>
 
           {/* Category + Date */}
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label htmlFor="transaction-category" className="mb-1 block text-xs text-text-muted">Category</label>
-              <select
-                id="transaction-category"
+          <div className="grid grid-cols-2 gap-4">
+            <div className="group">
+              <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-text-muted group-focus-within:text-accent transition-colors">Category</label>
+              <Select
                 value={form.category}
-                onChange={(e) => setForm((f) => ({ ...f, category: e.target.value as TransactionCategory }))}
-                title="Category"
-                className={inputClass}
+                onValueChange={(value) => setForm((f) => ({ ...f, category: value as TransactionCategory }))}
               >
-                {transactionCategories
-                  .filter((category): category is TransactionCategory => category !== 'all')
-                  .map((c) => <option key={c} value={c}>{c}</option>)}
-              </select>
+                <SelectTrigger className="h-[3.25rem] px-4 py-3">
+                  <SelectValue placeholder="Category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {transactionCategories
+                    .filter((category): category is TransactionCategory => category !== 'all')
+                    .map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                </SelectContent>
+              </Select>
             </div>
-            <div>
-              <label htmlFor="transaction-date" className="mb-1 block text-xs text-text-muted">Date *</label>
-              <input
-                id="transaction-date"
-                type="date"
-                value={form.date}
-                onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))}
-                title="Date"
-                className={inputClass}
+            <div className="group">
+              <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-text-muted group-focus-within:text-accent transition-colors">Date *</label>
+              <DatePicker 
+                date={form.date ? new Date(form.date) : undefined}
+                onDateChange={(date: Date | undefined) => { setForm(f => ({ ...f, date: date ? date.toISOString().split('T')[0] : '' })) }}
               />
-              {errors.date && <p className="mt-1 text-xs text-rose-400">{errors.date}</p>}
+              {errors.date && <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400 drop-shadow-sm">{errors.date}</p>}
             </div>
           </div>
 
           {/* Description */}
-          <div>
-            <label htmlFor="transaction-description" className="mb-1 block text-xs text-text-muted">Description</label>
+          <div className="group">
+            <label htmlFor="transaction-description" className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-text-muted group-focus-within:text-accent transition-colors">Description</label>
             <input
               id="transaction-description"
               type="text"
               value={form.description}
               onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
-              placeholder="Optional note"
+              placeholder="Optional note about this transaction"
               title="Description"
               className={inputClass}
             />
           </div>
 
           {/* Actions */}
-          <div className="flex gap-3 pt-1">
+          <div className="flex gap-4 pt-3 mt-2 border-t border-black/10 dark:border-white/5">
             <button
               type="button"
               onClick={onClose}
               title="Cancel"
-              className="flex-1 rounded-xl border border-white/10 py-2.5 text-sm font-medium text-text-muted hover:bg-white/6 transition-colors"
+              className="flex-1 rounded-xl border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 py-3 text-xs font-bold uppercase tracking-widest text-text-muted hover:bg-black/10 dark:hover:bg-white/10 hover:text-text transition-all backdrop-blur-md"
             >
               Cancel
             </button>
             <button
               type="submit"
               title={isEdit ? 'Save changes' : 'Add transaction'}
-              className="flex-1 rounded-xl bg-accent py-2.5 text-sm font-semibold text-white hover:bg-accent/80 transition-colors shadow-lg shadow-accent/20"
+              className="flex-1 rounded-xl bg-accent/90 border border-accent/50 py-3 text-xs font-bold uppercase tracking-widest text-slate-950 hover:bg-accent hover:-translate-y-0.5 transition-all shadow-[0_0_20px_rgba(56,189,248,0.4)] backdrop-blur-md"
             >
               {isEdit ? 'Save Changes' : 'Add Transaction'}
             </button>
@@ -213,4 +218,6 @@ export function TransactionModal({ transaction, onClose }: TransactionModalProps
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 }
