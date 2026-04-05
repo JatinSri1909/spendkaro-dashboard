@@ -16,5 +16,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     document.documentElement.classList.toggle('light', state.theme === 'light');
   }, [state.theme]);
 
+  useEffect(() => {
+    document.documentElement.classList.toggle('admin-mode', state.role === 'admin');
+  }, [state.role]);
+
   return <AppContext.Provider value={{ state, dispatch }}>{children}</AppContext.Provider>;
 }

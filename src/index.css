@@ -43,6 +43,16 @@
   --color-text-muted:   #64748B;
 }
 
+:root.admin-mode {
+  --token-accent:       #A855F7;
+  --token-accent-dim:   rgba(168, 85, 247, 0.2);
+}
+
+:root.light.admin-mode {
+  --token-accent:       #7C3AED;
+  --token-accent-dim:   rgba(124, 58, 237, 0.18);
+}
+
 *, *::before, *::after { box-sizing: border-box; }
 
 html, body, #root {
