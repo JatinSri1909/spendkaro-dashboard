@@ -1,16 +1,22 @@
-import { useState, lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import { AppProvider, useAppContext } from '@/common/hooks';
-import { Sidebar, Topbar } from '@/common/components';
+import { useState, lazy, Suspense } from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
+import { AppProvider, useAppContext } from "@/common/hooks";
+import { Sidebar, Topbar } from "@/common/components";
 
-const OverviewPage = lazy(() => import('@/overview/overview-page'));
-const TransactionsPage = lazy(() => import('@/transactions/transactions-page'));
-const InsightsPage = lazy(() => import('@/insights/insights-page'));
+const OverviewPage = lazy(() => import("@/overview/overview-page"));
+const TransactionsPage = lazy(() => import("@/transactions/transactions-page"));
+const InsightsPage = lazy(() => import("@/insights/insights-page"));
 
-const PAGE_TITLES: Record<string, string> = {
-  '/': 'Overview',
-  '/transactions': 'Transactions',
-  '/insights': 'Insights',
+const PAGE_TITLES: Record<string, { title: string; mobileTitle: string }> = {
+  "/": { title: "Overview", mobileTitle: "Overview" },
+  "/transactions": { title: "Transactions", mobileTitle: "Transacxn" },
+  "/insights": { title: "Insights", mobileTitle: "Insights" },
 };
 
 function PageLoader() {
@@ -29,6 +35,7 @@ function AppShell() {
   const { state } = useAppContext();
   const location = useLocation();
   const navigate = useNavigate();
+  const currentPageTitle = PAGE_TITLES[location.pathname] ?? PAGE_TITLES["/"];
 
   return (
     <div className="relative flex h-screen overflow-hidden bg-background font-sans text-text antialiased">
@@ -38,33 +45,50 @@ function AppShell() {
         <div className="animate-blob animation-delay-2000 absolute top-40 -right-20 h-80 w-80 rounded-full bg-accent/20 blur-3xl filter" />
         <div className="animate-blob animation-delay-4000 absolute -bottom-40 left-20 h-120 w-120 rounded-full bg-accent/15 blur-3xl filter" />
       </div>
-      
+
       <div className="relative z-10 flex w-full flex-1">
         <div className="hidden md:flex md:shrink-0">
-        <Sidebar role={state.role} />
-      </div>
-
-      {sidebarOpen && (
-        <div className="fixed inset-0 z-40 flex md:hidden">
-          <div className="absolute inset-0 bg-black/60" onClick={() => setSidebarOpen(false)} />
-          <div className="relative z-50 shrink-0" onClick={() => setSidebarOpen(false)}>
-            <Sidebar role={state.role} />
-          </div>
+          <Sidebar role={state.role} />
         </div>
-      )}
 
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <Topbar title={PAGE_TITLES[location.pathname] || 'Overview'} onMenuClick={() => setSidebarOpen(true)} />
-        <main className="flex-1 overflow-y-auto">
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              <Route path="/" element={<OverviewPage onNavigateToTransactions={() => navigate('/transactions')} />} />
-              <Route path="/transactions" element={<TransactionsPage />} />
-              <Route path="/insights" element={<InsightsPage />} />
-            </Routes>
-          </Suspense>
-        </main>
-      </div>
+        {sidebarOpen && (
+          <div className="fixed inset-0 z-40 flex md:hidden">
+            <div
+              className="absolute inset-0 bg-black/60"
+              onClick={() => setSidebarOpen(false)}
+            />
+            <div
+              className="relative z-50 shrink-0"
+              onClick={() => setSidebarOpen(false)}
+            >
+              <Sidebar role={state.role} />
+            </div>
+          </div>
+        )}
+
+        <div className="flex flex-1 flex-col overflow-hidden">
+          <Topbar
+            title={currentPageTitle.title}
+            mobileTitle={currentPageTitle.mobileTitle}
+            onMenuClick={() => setSidebarOpen(true)}
+          />
+          <main className="flex-1 overflow-y-auto">
+            <Suspense fallback={<PageLoader />}>
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <OverviewPage
+                      onNavigateToTransactions={() => navigate("/transactions")}
+                    />
+                  }
+                />
+                <Route path="/transactions" element={<TransactionsPage />} />
+                <Route path="/insights" element={<InsightsPage />} />
+              </Routes>
+            </Suspense>
+          </main>
+        </div>
       </div>
     </div>
   );

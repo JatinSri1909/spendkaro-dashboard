@@ -5,11 +5,13 @@ import { AppActionType } from '../constants';
 
 interface TopbarProps {
   title: string;
+  mobileTitle?: string;
   onMenuClick?: () => void;
 }
 
-export function Topbar({ title, onMenuClick }: TopbarProps) {
+export function Topbar({ title, mobileTitle, onMenuClick }: TopbarProps) {
   const { state, dispatch } = useAppContext();
+  const compactTitle = mobileTitle ?? title;
 
   return (
     <header className="relative z-10 flex h-14 items-center justify-between border-b border-white/10 bg-surface-alt/50 px-4 backdrop-blur-xl md:px-6">
@@ -25,7 +27,10 @@ export function Topbar({ title, onMenuClick }: TopbarProps) {
             <Menu size={18} />
           </button>
         )}
-        <h1 className="text-xl font-bold tracking-wide text-text drop-shadow-[0_2px_10px_rgba(255,255,255,0.1)]">{title}</h1>
+        <h1 className="text-lg font-bold tracking-wide text-text drop-shadow-[0_2px_10px_rgba(255,255,255,0.1)] md:text-xl">
+          <span className="md:hidden">{compactTitle}</span>
+          <span className="hidden md:inline">{title}</span>
+        </h1>
       </div>
 
       <div className="flex items-center gap-3">

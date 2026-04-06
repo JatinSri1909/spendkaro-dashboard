@@ -88,8 +88,8 @@ export default function TransactionsPage() {
 
       {/* Role info banner for viewer */}
       {role === RoleEnum.Viewer && (
-        <div className="rounded-xl border border-amber-500/20 bg-amber-500/8 px-4 py-2.5 text-xs text-amber-700 dark:text-amber-400 font-medium">
-          👁 Viewer mode — switch to Admin to add, edit, or delete transactions.
+        <div className="rounded-xl border border-amber-400 bg-amber-300 px-4 py-2.5 text-xs text-amber-950 dark:border-amber-500/20 dark:bg-amber-500/8 dark:text-amber-400 font-semibold">
+          Viewer mode — switch to Admin to add, edit, or delete transactions.
         </div>
       )}
 

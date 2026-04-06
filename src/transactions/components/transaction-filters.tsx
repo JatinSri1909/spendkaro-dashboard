@@ -11,7 +11,8 @@ export function TransactionFilters() {
   const { state, dispatch } = useAppContext();
   const { filters } = state;
   const [searchInput, setSearchInput] = useState(filters.search);
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [mobileFiltersMounted, setMobileFiltersMounted] = useState(false);
+  const [mobileFiltersVisible, setMobileFiltersVisible] = useState(false);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -22,6 +23,22 @@ export function TransactionFilters() {
 
     return () => clearTimeout(timeout);
   }, [searchInput, filters.search, dispatch]);
+
+  useEffect(() => {
+    if (!mobileFiltersVisible && mobileFiltersMounted) {
+      const timeout = setTimeout(() => setMobileFiltersMounted(false), 260);
+      return () => clearTimeout(timeout);
+    }
+  }, [mobileFiltersVisible, mobileFiltersMounted]);
+
+  function openMobileFilters() {
+    setMobileFiltersMounted(true);
+    requestAnimationFrame(() => setMobileFiltersVisible(true));
+  }
+
+  function closeMobileFilters() {
+    setMobileFiltersVisible(false);
+  }
 
   const hasActiveFilters =
     filters.search || filters.type !== 'all' || filters.category !== 'all' ||
@@ -150,7 +167,7 @@ export function TransactionFilters() {
 
           <button
             type="button"
-            onClick={() => setMobileFiltersOpen(true)}
+            onClick={openMobileFilters}
             className="md:hidden flex h-10 items-center gap-2 rounded-xl border border-white/10 bg-surface/40 px-3 text-xs font-semibold text-text hover:bg-surface/60 transition-colors"
             title="Open filters"
             aria-label="Open filters"
@@ -290,18 +307,24 @@ export function TransactionFilters() {
         </div>
       </div>
 
-      {mobileFiltersOpen && typeof document !== 'undefined' && createPortal(
+      {mobileFiltersMounted && typeof document !== 'undefined' && createPortal(
         <div className="sm:hidden fixed inset-0 z-40">
           <div
-            className="absolute inset-0 bg-black/60"
-            onClick={() => setMobileFiltersOpen(false)}
+            className={`absolute inset-0 bg-black/60 transition-opacity duration-200 ${
+              mobileFiltersVisible ? 'opacity-100' : 'opacity-0'
+            }`}
+            onClick={closeMobileFilters}
           />
-          <div className="absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-2xl border-t border-white/10 bg-background p-4 shadow-2xl">
+          <div
+            className={`absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-2xl border-t border-white/10 bg-background p-4 shadow-2xl transition-transform duration-300 ease-out ${
+              mobileFiltersVisible ? 'translate-y-0' : 'translate-y-full'
+            }`}
+          >
             <div className="mb-4 flex items-center justify-between">
               <p className="text-sm font-semibold text-text">Filters</p>
               <button
                 type="button"
-                onClick={() => setMobileFiltersOpen(false)}
+                onClick={closeMobileFilters}
                 className="rounded-lg p-2 text-text-muted hover:bg-white/10 hover:text-text transition-colors"
                 aria-label="Close filters"
                 title="Close filters"
@@ -316,7 +339,7 @@ export function TransactionFilters() {
 
             <button
               type="button"
-              onClick={() => setMobileFiltersOpen(false)}
+              onClick={closeMobileFilters}
               className="mt-4 w-full rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-white"
             >
               Apply Filters
