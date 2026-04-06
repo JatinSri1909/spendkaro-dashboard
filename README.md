@@ -33,29 +33,42 @@ No login required. Switch between **Viewer** and **Admin** roles in the top bar 
 
 ## Screenshots
 
-### Desktop · Admin · Dark
-
-![Overview (Desktop Admin Dark)](public/admin.dark.overview.png)
-![Transactions (Desktop Admin Dark)](public/admin.dark.transactions.png)
-![Insights (Desktop Admin Dark)](public/admin.dark.insights.png)
-
-### Desktop · Admin · Light
-
-![Overview (Desktop Admin Light)](public/admin.light.overview.png)
-![Transactions (Desktop Admin Light)](public/admin.light.transactions.png)
-![Insights (Desktop Admin Light)](public/admin.light.insights.png)
-
-### Mobile · Admin · Dark
-
-![Overview (Mobile Admin Dark)](public/mobile.admin.dark.overview.png)
-![Transactions (Mobile Admin Dark)](public/mobile.admin.dark.transactions.png)
-![Insights (Mobile Admin Dark)](public/mobile.admin.dark.insights.png)
-
-### Mobile · Admin · Light
-
-![Overview (Mobile Admin Light)](public/mobile.admin.light.overview.png)
-![Transactions (Mobile Admin Light)](public/mobile.admin.light.transactions.png)
-![Insights (Mobile Admin Light)](public/mobile.admin.light.insights.png)
+<table>
+  <thead>
+    <tr>
+      <th>Mode</th>
+      <th>Overview</th>
+      <th>Transactions</th>
+      <th>Insights</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Desktop · Admin · Dark</strong></td>
+      <td><img src="public/admin.dark.overview.png" alt="Overview Desktop Admin Dark" /></td>
+      <td><img src="public/admin.dark.transactions.png" alt="Transactions Desktop Admin Dark" /></td>
+      <td><img src="public/admin.dark.insights.png" alt="Insights Desktop Admin Dark" /></td>
+    </tr>
+    <tr>
+      <td><strong>Desktop · Admin · Light</strong></td>
+      <td><img src="public/admin.light.overview.png" alt="Overview Desktop Admin Light" /></td>
+      <td><img src="public/admin.light.transactions.png" alt="Transactions Desktop Admin Light" /></td>
+      <td><img src="public/admin.light.insights.png" alt="Insights Desktop Admin Light" /></td>
+    </tr>
+    <tr>
+      <td><strong>Mobile · Admin · Dark</strong></td>
+      <td><img src="public/mobile.admin.dark.overview.png" alt="Overview Mobile Admin Dark" /></td>
+      <td><img src="public/mobile.admin.dark.transactions.png" alt="Transactions Mobile Admin Dark" /></td>
+      <td><img src="public/mobile.admin.dark.insights.png" alt="Insights Mobile Admin Dark" /></td>
+    </tr>
+    <tr>
+      <td><strong>Mobile · Admin · Light</strong></td>
+      <td><img src="public/mobile.admin.light.overview.png" alt="Overview Mobile Admin Light" /></td>
+      <td><img src="public/mobile.admin.light.transactions.png" alt="Transactions Mobile Admin Light" /></td>
+      <td><img src="public/mobile.admin.light.insights.png" alt="Insights Mobile Admin Light" /></td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 
