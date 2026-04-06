@@ -33,8 +33,29 @@ No login required. Switch between **Viewer** and **Admin** roles in the top bar 
 
 ## Screenshots
 
-> Dashboard Overview · Transactions · Insights  
-> *(Dark mode default — light mode available via toggle)*
+### Desktop · Admin · Dark
+
+![Overview (Desktop Admin Dark)](public/admin.dark.overview.png)
+![Transactions (Desktop Admin Dark)](public/admin.dark.transactions.png)
+![Insights (Desktop Admin Dark)](public/admin.dark.insights.png)
+
+### Desktop · Admin · Light
+
+![Overview (Desktop Admin Light)](public/admin.light.overview.png)
+![Transactions (Desktop Admin Light)](public/admin.light.transactions.png)
+![Insights (Desktop Admin Light)](public/admin.light.insights.png)
+
+### Mobile · Admin · Dark
+
+![Overview (Mobile Admin Dark)](public/mobile.admin.dark.overview.png)
+![Transactions (Mobile Admin Dark)](public/mobile.admin.dark.transactions.png)
+![Insights (Mobile Admin Dark)](public/mobile.admin.dark.insights.png)
+
+### Mobile · Admin · Light
+
+![Overview (Mobile Admin Light)](public/mobile.admin.light.overview.png)
+![Transactions (Mobile Admin Light)](public/mobile.admin.light.transactions.png)
+![Insights (Mobile Admin Light)](public/mobile.admin.light.insights.png)
 
 ---
 
